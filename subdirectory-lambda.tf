@@ -25,4 +25,9 @@ resource "aws_lambda_function" "subdirectory_index" {
   runtime          = "nodejs12.x"
   role             = aws_iam_role.lambda_at_edge.arn
   publish          = true
+  lifecycle {
+    ignore_changes = [
+      filename,
+    ]
+  }
 }

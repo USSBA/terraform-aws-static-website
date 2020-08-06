@@ -26,5 +26,10 @@ resource "aws_lambda_function" "hsts_header" {
   runtime          = "nodejs12.x"
   role             = aws_iam_role.lambda_at_edge.arn
   publish          = true
+  lifecycle {
+    ignore_changes = [
+      filename,
+    ]
+  }
 }
 
