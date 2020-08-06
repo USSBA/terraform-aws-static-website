@@ -58,10 +58,8 @@ resource "aws_cloudfront_origin_access_identity" "oai" {
   comment = "OAI for ${var.domain_name}"
 }
 module "cloudfront" {
-  source = "../terraform-aws-cloudfront/"
-  #source = "git@github.com:USSBA/terraform-aws-cloudfront.git?ref=IA-1556-add-s3-origins"
-  #source = "USSBA/terraform-aws-cloudfront"
-  #version = "~> 1.0.0"
+  source = "USSBA/cloudfront/aws"
+  version = "~> 1.1"
 
   ipv6_enabled = true
   aliases      = [var.domain_name]
