@@ -28,6 +28,12 @@ resource "aws_s3_bucket" "logging" {
     permissions = ["READ", "WRITE"]
     uri         = "http://acs.amazonaws.com/groups/s3/LogDelivery"
   }
+  grant {
+    # AWS Logs Delivery account: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html
+    id          = "c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"
+    permissions = [ "FULL_CONTROL" ]
+    type        = "CanonicalUser"
+  }
   tags = {
     Name = "CloudFront logs for ${var.domain_name}"
   }
