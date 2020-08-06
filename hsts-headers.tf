@@ -32,4 +32,3 @@ resource "aws_lambda_function" "hsts_header" {
     ]
   }
 }
-

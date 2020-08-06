@@ -31,7 +31,7 @@ resource "aws_s3_bucket" "logging" {
   grant {
     # AWS Logs Delivery account: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html
     id          = "c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"
-    permissions = [ "FULL_CONTROL" ]
+    permissions = ["FULL_CONTROL"]
     type        = "CanonicalUser"
   }
   tags = {
@@ -64,7 +64,7 @@ resource "aws_cloudfront_origin_access_identity" "oai" {
   comment = "OAI for ${var.domain_name}"
 }
 module "cloudfront" {
-  source = "USSBA/cloudfront/aws"
+  source  = "USSBA/cloudfront/aws"
   version = "~> 1.1"
 
   ipv6_enabled = true
