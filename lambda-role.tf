@@ -1,5 +1,5 @@
 resource "aws_iam_role" "lambda_at_edge" {
-  name_prefix = var.name_prefix
+  name_prefix        = var.name_prefix
   assume_role_policy = <<-EOF
   {
     "Version": "2012-10-17",
@@ -19,7 +19,6 @@ resource "aws_iam_role" "lambda_at_edge" {
   }
   EOF
 }
-
 data "aws_iam_policy_document" "lambda_at_edge" {
   statement {
     sid = "AllowCloudWatchLogs"
@@ -28,17 +27,15 @@ data "aws_iam_policy_document" "lambda_at_edge" {
       "logs:CreateLogStream",
       "logs:PutLogEvents"
     ]
-    effect = "Allow"
+    effect    = "Allow"
     resources = ["*"]
   }
 }
-
 resource "aws_iam_policy" "lambda_at_edge" {
   name_prefix = var.name_prefix
-  path   = "/"
-  policy = data.aws_iam_policy_document.lambda_at_edge.json
+  path        = "/"
+  policy      = data.aws_iam_policy_document.lambda_at_edge.json
 }
-
 resource "aws_iam_role_policy_attachment" "lambda_at_edge" {
   role       = aws_iam_role.lambda_at_edge.name
   policy_arn = aws_iam_policy.lambda_at_edge.arn
