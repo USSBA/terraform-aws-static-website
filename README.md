@@ -18,6 +18,14 @@ module "static_site" {
 
 ```
 
+## Features
+
+* Redirect HTTP to HTTPS
+* HTTPS
+* Route53 Alias Records
+* HSTS Headers
+* Default index file resolution for root and subdirectories (`/files/` => `/files/index.html`)
+
 ## Parameters
 
 ### Required
