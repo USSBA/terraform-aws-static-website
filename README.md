@@ -5,7 +5,7 @@ Sometimes you just want to get your simple static website up and running quickly
 ```
 module "static_site" {
   source = "USSBA/static-website/aws"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
   domain_name = "static.example.com"
   acm_certificate_arn = "arn:aws:acm:us-east-1:123412341234:certificate/1234abcd-1234-abcd-1234-abcd1234abcd"
@@ -49,6 +49,10 @@ We welcome contributions.
 To contribute please read our [CONTRIBUTING](CONTRIBUTING.md) document.
 
 All contributions are subject to the [license](LICENSE.md) and in no way imply compensation for contributions.
+
+### Terraform 0.12
+
+Our code base now exists in Terraform 0.13 and we are halting new features in the Terraform 0.12 major version.  If you wish to make a PR or merge upstream changes back into 0.12, please submit a PR to the `terraform-0.12` branch.
 
 ## Code of Conduct
 
