@@ -2,7 +2,7 @@
 
 Sometimes you just want to get your simple static website up and running quickly.  And then you start to wonder about HTTPS, caching, logging, HSTS headers, Bucket Permissions, and so on.  Ain't nobody got time for that.  This handles that boilerplate for you and condenses the code into this:
 
-```
+```terraform
 module "static_site" {
   source = "USSBA/static-website/aws"
   version = "~> 2.0"
