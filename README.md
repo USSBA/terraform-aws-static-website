@@ -25,6 +25,7 @@ module "static_site" {
 * Route53 Alias Records
 * HSTS Headers
 * Default index file resolution for root and subdirectories (`/files/` => `/files/index.html`)
+* A simple bucket created with the name of `<domain-name>-static-content` for all your static hosting needs
 
 ## Parameters
 
