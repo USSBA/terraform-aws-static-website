@@ -2,7 +2,7 @@
 
 Sometimes you just want to get your simple static website up and running quickly.  And then you start to wonder about HTTPS, caching, logging, HSTS headers, Bucket Permissions, and so on.  Ain't nobody got time for that.  This handles that boilerplate for you and condenses the code into this:
 
-```
+```terraform
 module "static_site" {
   source = "USSBA/static-website/aws"
   version = "~> 2.0"
@@ -25,6 +25,7 @@ module "static_site" {
 * Route53 Alias Records
 * HSTS Headers
 * Default index file resolution for root and subdirectories (`/files/` => `/files/index.html`)
+* A simple bucket created with the name of `<domain-name>-static-content` for all your static hosting needs
 
 ## Parameters
 
