@@ -26,3 +26,13 @@ variable "name_prefix" {
   description = "Required: Max of 6 characters; A name prefix for resources that require it."
   default     = "static"
 }
+variable "content_bucket_name" {
+  type        = string
+  description = "Optional: Provide a name for the content bucket.  By default, the content bucket name will be '<domain_name`>-static-content'."
+  default     = ""
+}
+variable "create_content_bucket" {
+  type        = bool
+  description = "Optional: If the bucket already exists, set this to false, and the module will use the existing bucket"
+  default     = true
+}
