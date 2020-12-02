@@ -3,15 +3,16 @@
 ## v3.0.0
 
 - Refactor bucket creation
-- BREAKING: Rename bucket resource, allow conditional creation
-  - To migrate, run:
+- Default origin of CloudFront will change, but shouldn't have much impact
+- **BREAKING**: Rename bucket resource, allow conditional creation
+- **BREAKING**: Allow provided CloudFront OAI ID to skip creation of new OAI
+- To migrate breaking changes, run:
 
 ```shell
-terraform state mv module.<module-name>.aws_s3_bucket.static module.<module-name>.aws_s3_bucket.content[0]`
-terraform state mv module.<module-name>.aws_s3_bucket_policy.static module.<module-name>.aws_s3_bucket_policy.content`
+terraform state mv module.<module-name>.aws_s3_bucket.static module.<module-name>.aws_s3_bucket.content[0]
+terraform state mv module.<module-name>.aws_s3_bucket_policy.static module.<module-name>.aws_s3_bucket_policy.content
+terraform state mv module.<module-name>.aws_cloudfront_origin_access_identity.oai module.<module-name>.aws_cloudfront_origin_access_identity.oai[0]
 ```
-
-- Default origin of CloudFront will change, but shouldn't have much impact
 
 ## v2.1.0
 

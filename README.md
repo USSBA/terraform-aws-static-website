@@ -42,6 +42,7 @@ module "static_site" {
 * `default_subdirectory_object` - If you want URLs ending in `/` to load a file, set this to something like `index.html`. With CloudFront, you need lambda@edge to do this, so... it will create it.
 * `content_bucket_name` - Set the name of the content bucket.  Defaults to `<domain_name>-static-content`
 * `create_content_bucket` - Set whether module creates the bucket, or looks it up with a data-source.  Defaults to `true`
+* `cloudfront_oai_id` - Provide a pre-existing OAI ID to grant access from CloudFront to S3.  If not provided, an OAI will be created for you by default.
 
 ## Notes
 

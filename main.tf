@@ -7,6 +7,12 @@ locals {
   content_bucket_name = coalesce(var.content_bucket_name, "${var.domain_name}-static-content")
   content_bucket      = var.create_content_bucket ? aws_s3_bucket.content[0] : data.aws_s3_bucket.content[0]
 
+  # CloudFront OAI Info
+  create_oai                          = var.cloudfront_oai_id == ""
+  cloudfront_oai_id                   = local.create_oai ? aws_cloudfront_origin_access_identity.oai[0].id : var.cloudfront_oai_id
+  cloudfront_oai_iam_arn              = "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${local.cloudfront_oai_id}"
+  cloudfront_oai_access_identity_path = "origin-access-identity/cloudfront/${local.cloudfront_oai_id}"
+
 }
 resource "aws_route53_record" "record" {
   count   = var.hosted_zone_id != "" ? 1 : 0
@@ -60,7 +66,7 @@ data "aws_iam_policy_document" "content" {
     resources = ["${local.content_bucket.arn}/*"]
     principals {
       type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.oai.iam_arn]
+      identifiers = [local.cloudfront_oai_iam_arn]
     }
   }
 }
@@ -69,6 +75,7 @@ resource "aws_s3_bucket_policy" "content" {
   policy = data.aws_iam_policy_document.content.json
 }
 resource "aws_cloudfront_origin_access_identity" "oai" {
+  count   = local.create_oai ? 1 : 0
   comment = "OAI for ${var.domain_name}"
 }
 module "cloudfront" {
@@ -99,7 +106,7 @@ module "cloudfront" {
     {
       origin_id              = local.content_bucket_name
       domain_name            = local.content_bucket.bucket_regional_domain_name
-      origin_access_identity = aws_cloudfront_origin_access_identity.oai.cloudfront_access_identity_path
+      origin_access_identity = local.cloudfront_oai_access_identity_path
     },
   ]
 
