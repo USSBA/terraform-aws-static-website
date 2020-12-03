@@ -41,3 +41,8 @@ variable "cloudfront_oai_id" {
   description = "Optional: If you already have an OAI created and don't want another one, provide the ID for it"
   default     = ""
 }
+variable "force_destroy_buckets" {
+  type        = bool
+  description = "Optional: If set to true, buckets will be deleted on module destroy, regardless of data in those buckets.  Defaults to false"
+  default     = false
+}

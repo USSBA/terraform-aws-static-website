@@ -1,5 +1,9 @@
 # Releases
 
+## v3.1.0
+
+- Option for force_destroy_buckets
+
 ## v3.0.0
 
 - Refactor bucket creation

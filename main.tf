@@ -26,7 +26,8 @@ resource "aws_route53_record" "record" {
   }
 }
 resource "aws_s3_bucket" "logging" {
-  bucket = "${var.domain_name}-logs"
+  bucket        = "${var.domain_name}-logs"
+  force_destroy = var.force_destroy_buckets
   grant {
     id          = data.aws_canonical_user_id.current_user.id
     type        = "CanonicalUser"
@@ -48,8 +49,9 @@ resource "aws_s3_bucket" "logging" {
   }
 }
 resource "aws_s3_bucket" "content" {
-  count  = var.create_content_bucket ? 1 : 0
-  bucket = local.content_bucket_name
+  count         = var.create_content_bucket ? 1 : 0
+  bucket        = local.content_bucket_name
+  force_destroy = var.force_destroy_buckets
   tags = {
     Name = "${var.domain_name} Static Content"
   }
