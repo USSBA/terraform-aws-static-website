@@ -3,6 +3,7 @@
 ## v3.1.0
 
 - Option for force_destroy_buckets
+- Bump `versions.tf` to support tf 0.14+
 
 ## v3.0.0
 
