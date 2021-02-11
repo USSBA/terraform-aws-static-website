@@ -44,17 +44,13 @@ resource "aws_s3_bucket" "logging" {
     permissions = ["FULL_CONTROL"]
     type        = "CanonicalUser"
   }
-  tags = {
-    Name = "CloudFront logs for ${var.domain_name}"
-  }
+  tags = merge(var.tags, var.tags_s3_bucket_logging, { Name = "CloudFront logs for ${var.domain_name}" })
 }
 resource "aws_s3_bucket" "content" {
   count         = var.create_content_bucket ? 1 : 0
   bucket        = local.content_bucket_name
   force_destroy = var.force_destroy_buckets
-  tags = {
-    Name = "${var.domain_name} Static Content"
-  }
+  tags          = merge(var.tags, var.tags_s3_bucket_content, { Name = "${var.domain_name} Static Content" })
 }
 data "aws_s3_bucket" "content" {
   count  = var.create_content_bucket ? 0 : 1
@@ -128,4 +124,5 @@ module "cloudfront" {
     forward_querystring_cache_keys = []
     lambda_function_association    = local.lambda_at_edge_associations
   }
+  tags = merge(var.tags, var.tags_cloudfront, { Name = "Cloudfront for ${var.domain_name}" })
 }

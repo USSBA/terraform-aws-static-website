@@ -1,5 +1,10 @@
 # Releases
 
+## v3.2.0
+
+- Added tagging framework
+- Added example directory with a simple example including tagging
+
 ## v3.1.0
 
 - Option for force_destroy_buckets

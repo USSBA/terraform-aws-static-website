@@ -40,10 +40,14 @@ module "static_site" {
 * `hosted_zone_id` - The hosted zone matching your domain; if provided, the module will create the Route53 recordset for you.  If not, you'll need to map the cloudfront DNS yourself
 * `hsts_header` - The value of the HSTS header, eg `max-age=31536000`, helpful to let your users know you always want them using HTTPS.  With CloudFront, you need lambda@edge to do this, so... it will create it.
 * `default_subdirectory_object` - If you want URLs ending in `/` to load a file, set this to something like `index.html`. With CloudFront, you need lambda@edge to do this, so... it will create it.
-* `content_bucket_name` - Set the name of the content bucket.  Defaults to `<domain_name>-static-content`
-* `create_content_bucket` - Set whether module creates the bucket, or looks it up with a data-source.  Defaults to `true`
+* `content_bucket_name` - Set the name of the content bucket.  Defaults to `<domain_name>-static-content`.
+* `create_content_bucket` - Set whether module creates the bucket, or looks it up with a data-source.  Defaults to `true`.
 * `cloudfront_oai_id` - Provide a pre-existing OAI ID to grant access from CloudFront to S3.  If not provided, an OAI will be created for you by default.
-* `force_destroy_buckets` - If set to true, buckets will be deleted on module destroy, regardless of data in those buckets.  Defaults to false
+* `force_destroy_buckets` - If set to true, buckets will be deleted on module destroy, regardless of data in those buckets.  Defaults to false.
+* `tags` - Map of key-value tags to apply to all applicable resources. Defaults to no tags.
+* `tags_s3_bucket_logging` - Map of additional key-value tags to apply to the s3 bucket containing logs. Any Name tag will be overridden by a dynamically generated tag. Default is no tags.
+* `tags_s3_bucket_content` - Map of additional key-value tags to apply to the s3 bucket containing the static website content. Any Name tag will be overridden by a dynamically generated tag. Default is no tags.
+* `tags_cloudfront` - Map of key-value tags to apply to the cloudfront distribution. Any Name tag will be overridden by a dynamically generated tag. Defaults to no tags.
 
 ## Notes
 
