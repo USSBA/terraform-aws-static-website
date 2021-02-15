@@ -46,3 +46,24 @@ variable "force_destroy_buckets" {
   description = "Optional: If set to true, buckets will be deleted on module destroy, regardless of data in those buckets.  Defaults to false"
   default     = false
 }
+# Tags
+variable "tags" {
+  type        = map(any)
+  description = "Optional; Map of key-value tags to apply to all applicable resources"
+  default     = {}
+}
+variable "tags_s3_bucket_logging" {
+  type        = map(any)
+  description = "Optional; Map of additional key-value tags to apply to the s3 bucket containing logs"
+  default     = {}
+}
+variable "tags_s3_bucket_content" {
+  type        = map(any)
+  description = "Optional; Map of additional key-value tags to apply to the s3 bucket containing the static website content"
+  default     = {}
+}
+variable "tags_cloudfront" {
+  type        = map(any)
+  description = "Optional; Map of key-value tags to apply to the cloudfront distribution"
+  default     = {}
+}
