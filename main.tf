@@ -136,7 +136,7 @@ module "cloudfront" {
     viewer_protocol_policy         = "redirect-to-https" # allow-all, https-only, redirect-to-https
     forward_cookies                = "all"
     forward_cookies_whitelist      = []
-    forward_headers                = []
+    forward_headers                = length(var.cors_allowed_origins) > 0 ? ["Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers"] : []
     forward_querystring            = true
     forward_querystring_cache_keys = []
     lambda_function_association    = local.lambda_at_edge_associations

@@ -1,5 +1,9 @@
 # Releases
 
+## v3.3.1
+
+- BUGFIX: CORS forwarded headers
+
 ## v3.3.0
 
 - Configurable cloudfront methods using `cloudfront_allowed_methods`.  Valid options are "get", "get_options", "all"
