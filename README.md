@@ -49,6 +49,9 @@ module "static_site" {
 * `tags_s3_bucket_logging` - Map of additional key-value tags to apply to the s3 bucket containing logs. Any Name tag will be overridden by a dynamically generated tag. Default is no tags.
 * `tags_s3_bucket_content` - Map of additional key-value tags to apply to the s3 bucket containing the static website content. Any Name tag will be overridden by a dynamically generated tag. Default is no tags.
 * `tags_cloudfront` - Map of key-value tags to apply to the cloudfront distribution. Any Name tag will be overridden by a dynamically generated tag. Defaults to no tags.
+* `cors_allowed_origins` - List of domains to allow for CORS requests. ONLY applies if the bucket is created by this module.  Valid values like: `http://api.example.com`, `https://foo.example.com`, or just `*`  Defaults to none
+* `cors_allowed_headers` - Only used if cors_allowed_origins is not empty.  Headers to allow to be passed to the bucket. Defaults to `["*"]`
+* `cors_allowed_methods` - Only used if cors_allowed_origins is not empty.  Valid values like: `GET`, `POST`, `PUT`. Defaults to `["GET", "HEAD", "OPTIONS"]`
 
 ## Notes
 

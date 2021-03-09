@@ -22,4 +22,5 @@ module "simple_static_site" {
   }
 
   cloudfront_allowed_methods = "get"
+  cors_allowed_origins       = ["https//www.sba.gov"]
 }

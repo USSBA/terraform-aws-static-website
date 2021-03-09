@@ -73,3 +73,20 @@ variable "cloudfront_allowed_methods" {
   description = "Optional; Configure the allowed_methods of cloudfront.  Allowed values are 'get', 'get_options', 'all'.  For more information, see AWS documentation: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-defaultcachebehavior.html#cfn-cloudfront-distribution-defaultcachebehavior-allowedmethods"
   default     = "all"
 }
+
+# CORS Config
+variable "cors_allowed_origins" {
+  type        = list(string)
+  description = "Optional; List of domains to allow for CORS requests. ONLY applies if the bucket is created by this module.  Valid values like: http://api.example.com, https://foo.example.com, or just '*'  Defaults to none"
+  default     = []
+}
+variable "cors_allowed_headers" {
+  type        = list(string)
+  description = "Optional; Only used if cors_allowed_origins is not empty.  Headers to allow to be passed to the bucket. Defaults to '*'"
+  default     = ["*"]
+}
+variable "cors_allowed_methods" {
+  type        = list(string)
+  description = "Optional; Only used if cors_allowed_origins is not empty.  Valid values like: 'GET', 'POST', 'PUT'. Defaults to ['GET', 'HEAD', 'OPTIONS']"
+  default     = ["GET", "HEAD", "OPTIONS"]
+}
