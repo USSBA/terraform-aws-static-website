@@ -20,4 +20,6 @@ module "simple_static_site" {
     CloudFront = "Very Yes"
     bar        = "bar"
   }
+
+  cloudfront_allowed_methods = "get"
 }

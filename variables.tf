@@ -67,3 +67,9 @@ variable "tags_cloudfront" {
   description = "Optional; Map of key-value tags to apply to the cloudfront distribution"
   default     = {}
 }
+
+variable "cloudfront_allowed_methods" {
+  type        = string
+  description = "Optional; Configure the allowed_methods of cloudfront.  Allowed values are 'get', 'get_options', 'all'.  For more information, see AWS documentation: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-defaultcachebehavior.html#cfn-cloudfront-distribution-defaultcachebehavior-allowedmethods"
+  default     = "all"
+}

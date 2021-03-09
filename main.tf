@@ -13,6 +13,12 @@ locals {
   cloudfront_oai_iam_arn              = "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${local.cloudfront_oai_id}"
   cloudfront_oai_access_identity_path = "origin-access-identity/cloudfront/${local.cloudfront_oai_id}"
 
+  cloudfront_allowed_methods_map = {
+    get : ["GET", "HEAD"]
+    get_options : ["GET", "HEAD", "OPTIONS"]
+    all : ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+  }
+  cloudfront_allowed_methods = local.cloudfront_allowed_methods_map[var.cloudfront_allowed_methods]
 }
 resource "aws_route53_record" "record" {
   count   = var.hosted_zone_id != "" ? 1 : 0
@@ -110,7 +116,7 @@ module "cloudfront" {
 
   # Default behavior
   default_cache_behavior = {
-    allowed_methods                = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    allowed_methods                = local.cloudfront_allowed_methods
     cached_methods                 = ["GET", "HEAD"]
     origin_id                      = local.content_bucket_name
     default_ttl                    = 0
