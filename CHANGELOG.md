@@ -1,5 +1,10 @@
 # Releases
 
+## v3.3.0
+
+- Configurable cloudfront methods using `cloudfront_allowed_methods`.  Valid options are "get", "get_options", "all"
+- Configurable CORS rule when bucket is created by the module
+
 ## v3.2.0
 
 - Added tagging framework

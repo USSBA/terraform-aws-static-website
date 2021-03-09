@@ -13,6 +13,12 @@ locals {
   cloudfront_oai_iam_arn              = "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${local.cloudfront_oai_id}"
   cloudfront_oai_access_identity_path = "origin-access-identity/cloudfront/${local.cloudfront_oai_id}"
 
+  cloudfront_allowed_methods_map = {
+    get : ["GET", "HEAD"]
+    get_options : ["GET", "HEAD", "OPTIONS"]
+    all : ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+  }
+  cloudfront_allowed_methods = local.cloudfront_allowed_methods_map[var.cloudfront_allowed_methods]
 }
 resource "aws_route53_record" "record" {
   count   = var.hosted_zone_id != "" ? 1 : 0
@@ -51,6 +57,17 @@ resource "aws_s3_bucket" "content" {
   bucket        = local.content_bucket_name
   force_destroy = var.force_destroy_buckets
   tags          = merge(var.tags, var.tags_s3_bucket_content, { Name = "${var.domain_name} Static Content" })
+
+  dynamic "cors_rule" {
+    for_each = length(var.cors_allowed_origins) > 0 ? ["create"] : []
+    content {
+      allowed_headers = var.cors_allowed_headers
+      allowed_methods = var.cors_allowed_methods
+      allowed_origins = var.cors_allowed_origins
+      expose_headers  = []
+      max_age_seconds = 3000
+    }
+  }
 }
 data "aws_s3_bucket" "content" {
   count  = var.create_content_bucket ? 0 : 1
@@ -110,7 +127,7 @@ module "cloudfront" {
 
   # Default behavior
   default_cache_behavior = {
-    allowed_methods                = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    allowed_methods                = local.cloudfront_allowed_methods
     cached_methods                 = ["GET", "HEAD"]
     origin_id                      = local.content_bucket_name
     default_ttl                    = 0

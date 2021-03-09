@@ -43,11 +43,15 @@ module "static_site" {
 * `content_bucket_name` - Set the name of the content bucket.  Defaults to `<domain_name>-static-content`.
 * `create_content_bucket` - Set whether module creates the bucket, or looks it up with a data-source.  Defaults to `true`.
 * `cloudfront_oai_id` - Provide a pre-existing OAI ID to grant access from CloudFront to S3.  If not provided, an OAI will be created for you by default.
+* `cloudfront_allowed_methods` - Configure the allowed_methods of cloudfront.  Allowed values are `get`, `get_options`, `all`.  Default is `all`.  For more information, see [AWS documentation on Cache Behavior Allowed Methods](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-defaultcachebehavior.html#cfn-cloudfront-distribution-defaultcachebehavior-allowedmethods)
 * `force_destroy_buckets` - If set to true, buckets will be deleted on module destroy, regardless of data in those buckets.  Defaults to false.
 * `tags` - Map of key-value tags to apply to all applicable resources. Defaults to no tags.
 * `tags_s3_bucket_logging` - Map of additional key-value tags to apply to the s3 bucket containing logs. Any Name tag will be overridden by a dynamically generated tag. Default is no tags.
 * `tags_s3_bucket_content` - Map of additional key-value tags to apply to the s3 bucket containing the static website content. Any Name tag will be overridden by a dynamically generated tag. Default is no tags.
 * `tags_cloudfront` - Map of key-value tags to apply to the cloudfront distribution. Any Name tag will be overridden by a dynamically generated tag. Defaults to no tags.
+* `cors_allowed_origins` - List of domains to allow for CORS requests. ONLY applies if the bucket is created by this module.  Valid values like: `http://api.example.com`, `https://foo.example.com`, or just `*`  Defaults to none
+* `cors_allowed_headers` - Only used if cors_allowed_origins is not empty.  Headers to allow to be passed to the bucket. Defaults to `["*"]`
+* `cors_allowed_methods` - Only used if cors_allowed_origins is not empty.  Valid values like: `GET`, `POST`, `PUT`. Defaults to `["GET", "HEAD", "OPTIONS"]`
 
 ## Notes
 
