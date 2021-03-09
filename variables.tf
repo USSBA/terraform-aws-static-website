@@ -88,5 +88,5 @@ variable "cors_allowed_headers" {
 variable "cors_allowed_methods" {
   type        = list(string)
   description = "Optional; Only used if cors_allowed_origins is not empty.  Valid values like: 'GET', 'POST', 'PUT'. Defaults to ['GET', 'HEAD', 'OPTIONS']"
-  default     = ["GET", "HEAD", "OPTIONS"]
+  default     = ["GET", "HEAD"]
 }

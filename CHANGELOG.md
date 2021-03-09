@@ -1,5 +1,9 @@
 # Releases
 
+## v3.3.2
+
+- BUGFIX: OPTIONS is not a supported CORS verb in S3
+
 ## v3.3.1
 
 - BUGFIX: CORS forwarded headers
