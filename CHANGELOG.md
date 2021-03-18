@@ -1,5 +1,9 @@
 # Releases
 
+## v4.0.0
+
+- **BREAKING**: Allowing optional bucket policy.  This will remove/recreate the existing bucket policy resource, but should have little impact.  Since resources are being moved, this is considered breaking
+
 ## v3.3.2
 
 - BUGFIX: OPTIONS is not a supported CORS verb in S3

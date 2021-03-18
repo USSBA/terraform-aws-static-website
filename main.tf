@@ -86,6 +86,7 @@ data "aws_iam_policy_document" "content" {
   }
 }
 resource "aws_s3_bucket_policy" "content" {
+  count  = var.manage_content_bucket_policy ? 1 : 0
   bucket = local.content_bucket.id
   policy = data.aws_iam_policy_document.content.json
 }
