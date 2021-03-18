@@ -42,6 +42,7 @@ module "static_site" {
 * `default_subdirectory_object` - If you want URLs ending in `/` to load a file, set this to something like `index.html`. With CloudFront, you need lambda@edge to do this, so... it will create it.
 * `content_bucket_name` - Set the name of the content bucket.  Defaults to `<domain_name>-static-content`.
 * `create_content_bucket` - Set whether module creates the bucket, or looks it up with a data-source.  Defaults to `true`.
+* `manage_content_bucket_policy` - If you want to manage the bucket policy external to this module, set this to `false`.  In that case, you will be responsible for configuring the bucket to allow the OAI to read from the bucket.  Defaults to `true`
 * `cloudfront_oai_id` - Provide a pre-existing OAI ID to grant access from CloudFront to S3.  If not provided, an OAI will be created for you by default.
 * `cloudfront_allowed_methods` - Configure the allowed_methods of cloudfront.  Allowed values are `get`, `get_options`, `all`.  Default is `all`.  For more information, see [AWS documentation on Cache Behavior Allowed Methods](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-defaultcachebehavior.html#cfn-cloudfront-distribution-defaultcachebehavior-allowedmethods)
 * `force_destroy_buckets` - If set to true, buckets will be deleted on module destroy, regardless of data in those buckets.  Defaults to false.

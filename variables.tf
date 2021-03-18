@@ -36,6 +36,11 @@ variable "create_content_bucket" {
   description = "Optional: If the bucket already exists, set this to false, and the module will use the existing bucket"
   default     = true
 }
+variable "manage_content_bucket_policy" {
+  type        = bool
+  description = "Optional: If you want to manage the bucket policy external to this module, set this to false.  In that case, you will be responsible for configuring the bucket to allow the OAI to read from the bucket."
+  default     = true
+}
 variable "cloudfront_oai_id" {
   type        = string
   description = "Optional: If you already have an OAI created and don't want another one, provide the ID for it"
