@@ -53,6 +53,9 @@ module "static_site" {
 * `cors_allowed_origins` - List of domains to allow for CORS requests. ONLY applies if the bucket is created by this module.  Valid values like: `http://api.example.com`, `https://foo.example.com`, or just `*`  Defaults to none
 * `cors_allowed_headers` - Only used if cors_allowed_origins is not empty.  Headers to allow to be passed to the bucket. Defaults to `["*"]`
 * `cors_allowed_methods` - Only used if cors_allowed_origins is not empty.  Valid values like: `GET`, `POST`, `PUT`. Defaults to `["GET", "HEAD", "OPTIONS"]`
+* `default_ttl` - Override the default cache behavior default_ttl. Defaults to 0.
+* `max_ttl` - Override the default cache behavior max_ttl. Defaults to 0.
+* `min_ttl` - Override the default cache behavior min_ttl. Defaults to 0.
 
 ## Notes
 
