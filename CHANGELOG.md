@@ -1,5 +1,9 @@
 # Releases
 
+## v4.0.1
+
+- Added override variables for default cache behavior cache attributes (eg. default_ttl, max_ttl, min_ttl)
+
 ## v4.0.0
 
 - **BREAKING**: Allowing optional bucket policy.  This will remove/recreate the existing bucket policy resource, but should have little impact.  Since resources are being moved, this is considered breaking

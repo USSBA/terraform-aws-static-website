@@ -131,9 +131,9 @@ module "cloudfront" {
     allowed_methods                = local.cloudfront_allowed_methods
     cached_methods                 = ["GET", "HEAD"]
     origin_id                      = local.content_bucket_name
-    default_ttl                    = 0
-    min_ttl                        = 0
-    max_ttl                        = 0
+    default_ttl                    = var.default_ttl
+    min_ttl                        = var.min_ttl
+    max_ttl                        = var.max_ttl
     viewer_protocol_policy         = "redirect-to-https" # allow-all, https-only, redirect-to-https
     forward_cookies                = "all"
     forward_cookies_whitelist      = []

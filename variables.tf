@@ -95,3 +95,21 @@ variable "cors_allowed_methods" {
   description = "Optional; Only used if cors_allowed_origins is not empty.  Valid values like: 'GET', 'POST', 'PUT'. Defaults to ['GET', 'HEAD', 'OPTIONS']"
   default     = ["GET", "HEAD"]
 }
+
+# Default Cache Behavior Cache Settings
+variable "default_ttl" {
+  type        = number
+  description = "Optional; The default cache behavior default_ttl. Defaults to 0"
+  default     = 0
+}
+variable "min_ttl" {
+  type        = number
+  description = "Optional; The default cache behavior min_ttl. Defaults to 0"
+  default     = 0
+}
+variable "max_ttl" {
+  type        = number
+  description = "Optional; The default cache behavior max_ttl. Defaults to 0"
+  default     = 0
+}
+
