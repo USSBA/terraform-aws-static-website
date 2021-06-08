@@ -96,7 +96,7 @@ resource "aws_cloudfront_origin_access_identity" "oai" {
 }
 module "cloudfront" {
   source  = "USSBA/cloudfront/aws"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
   ipv6_enabled = true
   aliases      = [var.domain_name]
