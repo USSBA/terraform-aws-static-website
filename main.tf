@@ -1,9 +1,5 @@
 data "aws_canonical_user_id" "current_user" {}
 locals {
-  lambda_at_edge_associations = concat(
-    local.subdirectory_index_association,
-    local.hsts_header_association,
-  )
   content_bucket_name = coalesce(var.content_bucket_name, "${var.domain_name}-static-content")
   content_bucket      = var.create_content_bucket ? aws_s3_bucket.content[0] : data.aws_s3_bucket.content[0]
 
@@ -140,7 +136,30 @@ module "cloudfront" {
     forward_headers                = length(var.cors_allowed_origins) > 0 ? ["Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers"] : []
     forward_querystring            = true
     forward_querystring_cache_keys = []
-    lambda_function_association    = local.lambda_at_edge_associations
+    function_association    = [
+      {
+        event_type = "viewer-response"
+        lambda_arn = aws_cloudfront_function.security_headers_response.arn
+      },
+      {
+        event_type = "viewer-request"
+        lambda_arn = aws_cloudfront_function.subdirectory_index.arn
+      }
+    ]
   }
   tags = merge(var.tags, var.tags_cloudfront, { Name = "Cloudfront for ${var.domain_name}" })
+}
+resource "aws_cloudfront_function" "subdirectory_index" {
+  name    = "${terraform.workspace}-subdirectory-index"
+  runtime = "cloudfront-js-1.0"
+  comment = "${terraform.workspace} Subdirectory Index"
+  publish = true
+  code    = file("${path.module}/subdirectory.js")
+}
+resource "aws_cloudfront_function" "security_headers_response" {
+  name    = "${terraform.workspace}-security-headers"
+  runtime = "cloudfront-js-1.0"
+  comment = "${terraform.workspace} Security Headers Injection on viewer-response"
+  publish = true
+  code    = file("${path.module}/hsts.js")
 }
