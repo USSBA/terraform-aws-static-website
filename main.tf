@@ -92,7 +92,7 @@ resource "aws_cloudfront_origin_access_identity" "oai" {
 }
 module "cloudfront" {
   source  = "USSBA/cloudfront/aws"
-  version = "~> 4.0"
+  version = "~> 4.1"
 
   ipv6_enabled = true
   aliases      = [var.domain_name]
@@ -136,7 +136,7 @@ module "cloudfront" {
     forward_headers                = length(var.cors_allowed_origins) > 0 ? ["Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers"] : []
     forward_querystring            = true
     forward_querystring_cache_keys = []
-    function_association    = [
+    function_association = [
       {
         event_type = "viewer-response"
         lambda_arn = aws_cloudfront_function.security_headers_response.arn
