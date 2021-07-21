@@ -13,13 +13,13 @@ function handler(event) {
 
     // Match any '/' that occurs at the end of a URI. Replace it with a default index
     if ( trailing_slash_to_index ) {
-      newuri = olduri.replace(/\/$/, `/${index.html}`);
+      newuri = olduri.replace(/\/$/, `/${index_file}`);
     }
 
     // Match any URL that ends in /<something-without-a-dot>; append /index.html
     //   ex: example.com/foo/bar => example.com/foo/bar/index.html
     if (no_file_extension_to_index && newuri.match(/\/[^\/\.]+$/)) {
-      newuri = newuri + '/index.html'
+      newuri = newuri + `/${index_file}`
     }
 
     console.log("Old URI: " + olduri);
