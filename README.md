@@ -59,7 +59,7 @@ module "static_site" {
 
 ## Notes
 
-Adding HSTS headers and root object resolution will create lambda-at-edge functions to perform these tasks around cloudfront.  If you ever wish to _remove_ these features, you will need to manually disassociate the lambda-at-edge functions from the cloufront distribution's default behavior.
+Adding HSTS headers and root object resolution will create CloudFront functions to perform these tasks.  If you ever wish to _remove_ these features, you will need to manually disassociate the CloudFront functions from the cloufront distribution's default behavior.
 
 ## Contributing
 
