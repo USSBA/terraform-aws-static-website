@@ -1,19 +1,31 @@
 function handler(event) {
 
+    var index_file = "index.html";
+    var trailing_slash_to_index = true;
+    var no_file_extension_to_index = true;
+
     // Extract the request from the CloudFront event that is sent to Lambda@Edge
     var request = event.request;
 
     // Extract the URI from the request
     var olduri = request.uri;
+    var newuri = request.uri;
 
-    // // Match any '/' that occurs at the end of a URI. Replace it with a default index
-    var newuri = olduri.replace(/\/$/, '\/index.html');
+    // Match any '/' that occurs at the end of a URI. Replace it with a default index
+    if ( trailing_slash_to_index ) {
+      newuri = olduri.replace(/\/$/, `/${index.html}`);
+    }
 
-    // // Log the URI as received by CloudFront and the new URI to be used to fetch from origin
+    // Match any URL that ends in /<something-without-a-dot>; append /index.html
+    //   ex: example.com/foo/bar => example.com/foo/bar/index.html
+    if (no_file_extension_to_index && newuri.match(/\/[^\/\.]+$/)) {
+      newuri = newuri + '/index.html'
+    }
+
     console.log("Old URI: " + olduri);
     console.log("New URI: " + newuri);
 
-    // Replace the received URI with the URI that includes the index page
+    // Replace the received URI with the URI that includes the index, if applicable
     request.uri = newuri;
 
     // Return to CloudFront
