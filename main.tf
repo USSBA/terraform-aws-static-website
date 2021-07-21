@@ -139,27 +139,29 @@ module "cloudfront" {
     function_association = [
       {
         event_type = "viewer-response"
-        lambda_arn = aws_cloudfront_function.security_headers_response.arn
+        lambda_arn = aws_cloudfront_function.security_headers_response[0].arn
       },
       {
         event_type = "viewer-request"
-        lambda_arn = aws_cloudfront_function.subdirectory_index.arn
+        lambda_arn = aws_cloudfront_function.subdirectory_index[0].arn
       }
     ]
   }
   tags = merge(var.tags, var.tags_cloudfront, { Name = "Cloudfront for ${var.domain_name}" })
 }
 resource "aws_cloudfront_function" "subdirectory_index" {
+  count   = var.index_redirect || var.index_redirect_no_extension ? 1 : 0
   name    = "${terraform.workspace}-subdirectory-index"
   runtime = "cloudfront-js-1.0"
   comment = "${terraform.workspace} Subdirectory Index"
   publish = true
-  code    = file("${path.module}/subdirectory.js")
+  code    = replace(replace(replace(file("${path.module}/subdirectory.js"), "TRAILING_SLASH_TO_INDEX", var.index_redirect), "NO_FILE_EXTENSION_TO_INDEX", var.index_redirect_no_extension), "DEFAULT_INDEX", var.default_subdirectory_object)
 }
 resource "aws_cloudfront_function" "security_headers_response" {
+  count   = var.hsts_header != "" ? 1 : 0
   name    = "${terraform.workspace}-security-headers"
   runtime = "cloudfront-js-1.0"
   comment = "${terraform.workspace} Security Headers Injection on viewer-response"
   publish = true
-  code    = file("${path.module}/hsts.js")
+  code    = replace(file("${path.module}/hsts.js"), "HEADER_VALUE", var.hsts_header)
 }
