@@ -2,8 +2,9 @@
 
 ## v5.0.0
 
-- **BREAKING**: Index Redirect functions have new configurations. 
+- **BREAKING**: Index Redirect functions have new configurations.
 - **BREAKING**: hsts is now enabled by default
+- **BREAKING**: Requires aws privder v3.41+
 - Moved Lambda@Edge functions to CloudFront functions.
 - The index redirect function now created using ``index_redirect``.
 - **NEW FEATURE**: index_redirect_no_extension. Match any URL that ends in /<something-without-a-dot>; append /index.html. Example example.com/foo/bar => example.com/foo/bar/index.html
