@@ -152,7 +152,7 @@ module "cloudfront" {
 }
 resource "aws_cloudfront_function" "subdirectory_index" {
   count   = var.index_redirect || var.index_redirect_no_extension ? 1 : 0
-  name    = "${terraform.workspace}-subdirectory-index"
+  name    = "${replace(var.domain_name, ".", "-")}-subdirectory-index"
   runtime = "cloudfront-js-1.0"
   comment = "${terraform.workspace} Subdirectory Index"
   publish = true
@@ -160,7 +160,7 @@ resource "aws_cloudfront_function" "subdirectory_index" {
 }
 resource "aws_cloudfront_function" "security_headers_response" {
   count   = var.hsts_header != "" ? 1 : 0
-  name    = "${terraform.workspace}-security-headers"
+  name    = "${replace(var.domain_name, ".", "-")}-security-headers"
   runtime = "cloudfront-js-1.0"
   comment = "${terraform.workspace} Security Headers Injection on viewer-response"
   publish = true
