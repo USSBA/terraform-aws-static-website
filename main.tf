@@ -139,12 +139,12 @@ module "cloudfront" {
     forward_querystring_cache_keys = []
     function_association = flatten([
       var.hsts_header != "" ? [{
-        event_type = "viewer-response"
-        lambda_arn = "aws_cloudfront_function.security_headers_response[0].arn"
+        event_type   = "viewer-response"
+        function_arn = aws_cloudfront_function.security_headers_response[0].arn
       }] : [],
       var.index_redirect || var.index_redirect_no_extension ? [{
-        event_type = "viewer-request"
-        lambda_arn = "aws_cloudfront_function.subdirectory_index[0].arn"
+        event_type   = "viewer-request"
+        function_arn = aws_cloudfront_function.subdirectory_index[0].arn
       }] : [],
     ])
   }
