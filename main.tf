@@ -15,6 +15,7 @@ locals {
     all : ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
   }
   cloudfront_allowed_methods = local.cloudfront_allowed_methods_map[var.cloudfront_allowed_methods]
+
 }
 resource "aws_route53_record" "record" {
   count   = var.hosted_zone_id != "" ? 1 : 0
@@ -136,16 +137,16 @@ module "cloudfront" {
     forward_headers                = length(var.cors_allowed_origins) > 0 ? ["Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers"] : []
     forward_querystring            = true
     forward_querystring_cache_keys = []
-    function_association = [
-      {
+    function_association = flatten([
+      var.hsts_header != "" ? [{
         event_type = "viewer-response"
-        lambda_arn = aws_cloudfront_function.security_headers_response[0].arn
-      },
-      {
+        lambda_arn = "aws_cloudfront_function.security_headers_response[0].arn"
+      }] : [],
+      var.index_redirect || var.index_redirect_no_extension ? [{
         event_type = "viewer-request"
-        lambda_arn = aws_cloudfront_function.subdirectory_index[0].arn
-      }
-    ]
+        lambda_arn = "aws_cloudfront_function.subdirectory_index[0].arn"
+      }] : [],
+    ])
   }
   tags = merge(var.tags, var.tags_cloudfront, { Name = "Cloudfront for ${var.domain_name}" })
 }
