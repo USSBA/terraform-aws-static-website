@@ -59,7 +59,7 @@ variable "index_redirect" {
 variable "index_redirect_no_extension" {
   type        = bool
   description = "Match any URL that ends in /<something-without-a-dot>; append /index.html. Example example.com/foo/bar => example.com/foo/bar/index.html"
-  default     = false
+  default     = true 
 }
 # Tags
 variable "tags" {
