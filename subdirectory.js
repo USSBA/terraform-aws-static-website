@@ -1,6 +1,6 @@
 function handler(event) {
 
-    var index_file = DEFAULT_INDEX;
+    var index_file = "DEFAULT_INDEX";
     var trailing_slash_to_index = TRAILING_SLASH_TO_INDEX;
     var no_file_extension_to_index = NO_FILE_EXTENSION_TO_INDEX;
 
