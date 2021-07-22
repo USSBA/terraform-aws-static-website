@@ -4,8 +4,8 @@ variable "acm_certificate_arn" {
 }
 variable "default_subdirectory_object" {
   type        = string
-  description = "Optional: If you want all subdirectories to route `/` to a file, the lambda@edge infrastructure will be created to support this; ex: `index.html`"
-  default     = ""
+  description = "If you want all subdirectories to route `/` to a file, the CloudFront function will be created to support this; ex: `index.html`"
+  default     = "index.html"
 }
 variable "domain_name" {
   type        = string
@@ -18,8 +18,8 @@ variable "hosted_zone_id" {
 }
 variable "hsts_header" {
   type        = string
-  description = "Optional: If you want HSTS headers in front of your application, the lambda@edge infrastructure will be created to support this. Go to https://hstspreload.org/ for more information"
-  default     = ""
+  description = "Optional: If you want HSTS headers in front of your application, the CloudFront function will be created to support this. Enabled by default. Go to https://hstspreload.org/ for more information"
+  default     = "max-age=31536000"
 }
 variable "name_prefix" {
   type        = string
@@ -50,6 +50,16 @@ variable "force_destroy_buckets" {
   type        = bool
   description = "Optional: If set to true, buckets will be deleted on module destroy, regardless of data in those buckets.  Defaults to false"
   default     = false
+}
+variable "index_redirect" {
+  type        = bool
+  description = "Match any '/' that occurs at the end of a URI. Replace it with a default index"
+  default     = true
+}
+variable "index_redirect_no_extension" {
+  type        = bool
+  description = "Match any URL that ends in /<something-without-a-dot>; append /index.html. Example example.com/foo/bar => example.com/foo/bar/index.html"
+  default     = true
 }
 # Tags
 variable "tags" {

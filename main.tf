@@ -1,9 +1,5 @@
 data "aws_canonical_user_id" "current_user" {}
 locals {
-  lambda_at_edge_associations = concat(
-    local.subdirectory_index_association,
-    local.hsts_header_association,
-  )
   content_bucket_name = coalesce(var.content_bucket_name, "${var.domain_name}-static-content")
   content_bucket      = var.create_content_bucket ? aws_s3_bucket.content[0] : data.aws_s3_bucket.content[0]
 
@@ -19,6 +15,7 @@ locals {
     all : ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
   }
   cloudfront_allowed_methods = local.cloudfront_allowed_methods_map[var.cloudfront_allowed_methods]
+
 }
 resource "aws_route53_record" "record" {
   count   = var.hosted_zone_id != "" ? 1 : 0
@@ -96,7 +93,7 @@ resource "aws_cloudfront_origin_access_identity" "oai" {
 }
 module "cloudfront" {
   source  = "USSBA/cloudfront/aws"
-  version = "~> 4.0"
+  version = "~> 4.1"
 
   ipv6_enabled = true
   aliases      = [var.domain_name]
@@ -140,7 +137,32 @@ module "cloudfront" {
     forward_headers                = length(var.cors_allowed_origins) > 0 ? ["Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers"] : []
     forward_querystring            = true
     forward_querystring_cache_keys = []
-    lambda_function_association    = local.lambda_at_edge_associations
+    function_association = flatten([
+      var.hsts_header != "" ? [{
+        event_type   = "viewer-response"
+        function_arn = aws_cloudfront_function.security_headers_response[0].arn
+      }] : [],
+      var.index_redirect || var.index_redirect_no_extension ? [{
+        event_type   = "viewer-request"
+        function_arn = aws_cloudfront_function.subdirectory_index[0].arn
+      }] : [],
+    ])
   }
   tags = merge(var.tags, var.tags_cloudfront, { Name = "Cloudfront for ${var.domain_name}" })
+}
+resource "aws_cloudfront_function" "subdirectory_index" {
+  count   = var.index_redirect || var.index_redirect_no_extension ? 1 : 0
+  name    = "${replace(var.domain_name, ".", "-")}-subdirectory-index"
+  runtime = "cloudfront-js-1.0"
+  comment = "${terraform.workspace} Subdirectory Index"
+  publish = true
+  code    = replace(replace(replace(file("${path.module}/subdirectory.js"), "TRAILING_SLASH_TO_INDEX", var.index_redirect), "NO_FILE_EXTENSION_TO_INDEX", var.index_redirect_no_extension), "DEFAULT_INDEX", var.default_subdirectory_object)
+}
+resource "aws_cloudfront_function" "security_headers_response" {
+  count   = var.hsts_header != "" ? 1 : 0
+  name    = "${replace(var.domain_name, ".", "-")}-security-headers"
+  runtime = "cloudfront-js-1.0"
+  comment = "${terraform.workspace} Security Headers Injection on viewer-response"
+  publish = true
+  code    = replace(file("${path.module}/hsts.js"), "HEADER_VALUE", var.hsts_header)
 }
